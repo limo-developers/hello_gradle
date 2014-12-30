@@ -31,21 +31,25 @@ dependencies {
 }
 */
 
-def dstfolder = "./apk"
+def dstfolder = "./apk/"
 def appReleaseDesc = "test.apk"
 def appVersionCode = 'version_code' 
 def appVersionName = 'version_name'
 
-task sendToServer() { 
-    println 'sendToServer!'
+task sendToServer(type:Exec) { 
+    println '  -> sendToServer!'
     def apk = dstfolder + appReleaseDesc
-    new ByteArrayOutputStream().withStream { os ->
-        def result = exec {
-            executable = './python/limo_deployer.py'
-            args = ['passenger', appVersionCode, appVersionName, apk]
-            standardOutput = os
-            println '  exec!'
-        }
+
+    workingDir './python/'
+    commandLine './limo_deployer.py'
+    args ('passenger', appVersionCode, appVersionName, apk)
+
+    //store the output instead of printing to the console:
+    standardOutput = new ByteArrayOutputStream()
+
+    //extension method stopTomcat.output() can be used to obtain the output:
+    ext.output = {
+        return standardOutput.toString()
     }
 }
 

@@ -16,7 +16,7 @@ def main(argv):
     version_name = argv[3]
     file_name = argv[4]
 
-    print str.format("deploy: {0}, {1}({2}), file: {3}", type, version_name, version_code, file_name)
+    print str.format("\n  --> deploy: {0}, {1}({2}), file: {3}\n", type, version_name, version_code, file_name)
     # deploy(type, version_code, version_name, file_name)
 
 main(sys.argv)
