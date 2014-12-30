@@ -36,14 +36,15 @@ def appReleaseDesc = "test.apk"
 def appVersionCode = 'version_code' 
 def appVersionName = 'version_name'
 
-
-task sendToServer { 
+task sendToServer() { 
+    println 'sendToServer!'
     def apk = dstfolder + appReleaseDesc
     new ByteArrayOutputStream().withStream { os ->
         def result = exec {
-            executable = 'python/limo_deployer.py'
+            executable = './python/limo_deployer.py'
             args = ['passenger', appVersionCode, appVersionName, apk]
             standardOutput = os
+            println '  exec!'
         }
     }
 }
